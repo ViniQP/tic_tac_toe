@@ -1,14 +1,16 @@
 class Player
+  attr_reader :slots
   @@players = []
   
   def initialize(player)
+      @playervalue = "x"
       @player = player
       @slots = []
       @@players << self
   end
 
   def play(move, board)
-    @slots << move.to_sym
+    @slots << move
     board.edit_board(move)
   end
 end
@@ -39,6 +41,20 @@ class Board
   def edit_board(move)
     @board[move.to_sym] = "x"
   end
+
+  def check_win(slots)
+    return true if slots.all? { |slot| ["one", "two", "three"].include? slot } 
+    return true if slots.all? { |slot| ["four", "five", "six"].include? slot }
+    return true if slots.all? { |slot| ["seven", "eight", "nine"].include? slot }
+    
+    return true if slots.all? { |slot| ["one", "four", "seven"].include? slot }
+    return true if slots.all? { |slot| ["two", "five", "eight"].include? slot }
+    return true if slots.all? { |slot| ["three", "six", "nine"].include? slot }
+
+    return true if slots.all? { |slot| ["one", "five", "nine"].include? slot }
+    return true if slots.all? { |slot| ["three", "five", "seven"].include? slot }
+    return false
+  end
 end
 
 
@@ -52,5 +68,9 @@ puts
 player1.play("two", board)
 board.show_board
 puts
-player1.play("three", board)
+player1.play("four", board)
 board.show_board
+
+puts board.check_win(player1.slots) 
+
+["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
