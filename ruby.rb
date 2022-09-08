@@ -31,13 +31,12 @@ end
 
 class Player
   @@players = []
-  attr_accessor :player_type, :player_id, :game_board, :plays
+  attr_accessor :player_type, :game_board, :plays
   
-  def initialize(player_type, player_id)
+  def initialize(player_type)
     @player_type = player_type
     @plays = []
-    @player_id = 2
-    @players = self
+    @@players << self
     @game_board
   end
 
@@ -58,17 +57,17 @@ end
 
 
 def play_round
-  p1 = Player.new("X", 1)
-  p2 = Player.new("O", 1)
-  game = Game.new(p1, p2)
+  player1 = Player.new("X")
+  player2 = Player.new("O")
+  game = Game.new(player1, player2)
   count = 1
   
   loop do
     puts
     game.show_board
     print "Player 1 Move: "
-    p1.play(gets.chomp.to_i)
-    if game.check_winner(p1) == true
+    player1.play(gets.chomp.to_i)
+    if game.check_winner(player1) == true
       puts "Player 1 Wins!"
       break
     end
@@ -84,8 +83,8 @@ def play_round
     puts
     game.show_board
     print "Player 2 Move: "
-    p2.play(gets.chomp.to_i)
-    if game.check_winner(p2) == true
+    player2.play(gets.chomp.to_i)
+    if game.check_winner(player2) == true
       puts "Player 2 Wins!"
       break
     end
