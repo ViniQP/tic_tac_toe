@@ -1,7 +1,3 @@
-module Combinations
-
-end
-
 class Game
   attr_accessor :board, :available_positions
   def initialize(player1, player2)
